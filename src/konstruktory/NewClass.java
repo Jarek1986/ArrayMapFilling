@@ -18,7 +18,7 @@ public class NewClass {
        
         
         System.out.println("Change 3");
-        
+        System.out.println("Change 4");
         // ==== Basic size parameters of SOLO sign ==============
         
         int[][] myIntArray  = {{3, 3, 1, 3}, {1, 1, 1, 1, 1, 1}, {3, 1, 1, 1, 1, 1},{1, 1, 1, 1, 1, 1}, {3, 3, 3, 3}};
