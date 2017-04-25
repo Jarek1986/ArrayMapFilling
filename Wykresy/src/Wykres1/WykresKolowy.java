@@ -33,6 +33,8 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class WykresKolowy extends javax.swing.JFrame {
 
+    public JFreeChart chartJarekCopy;  // Twozenie obiektu referencji
+
     /**
      * Creates new form WykresKolowy
      */
@@ -52,13 +54,11 @@ public class WykresKolowy extends javax.swing.JFrame {
         ButtonOne = new javax.swing.JButton();
         canvas1 = new java.awt.Canvas();
         panel1 = new java.awt.Panel();
-        ButtonPDF = new javax.swing.JButton();
-        savePath = new javax.swing.JLabel();
         SaveChart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        ButtonOne.setText("Przycisk");
+        ButtonOne.setText("Generuj wykres");
         ButtonOne.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonOneActionPerformed(evt);
@@ -69,18 +69,14 @@ public class WykresKolowy extends javax.swing.JFrame {
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 345, Short.MAX_VALUE)
+            .addGap(0, 412, Short.MAX_VALUE)
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 213, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        ButtonPDF.setText("PDF");
-
-        savePath.setText("Save path");
-
-        SaveChart.setText("SaveChart");
+        SaveChart.setText("Zapisz wykres");
         SaveChart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SaveChartActionPerformed(evt);
@@ -91,50 +87,32 @@ public class WykresKolowy extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(ButtonOne)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(59, 59, 59)
-                                .addComponent(ButtonPDF)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65)))
-                .addGap(25, 25, 25))
             .addGroup(layout.createSequentialGroup()
-                .addGap(193, 193, 193)
-                .addComponent(SaveChart)
-                .addGap(27, 27, 27)
-                .addComponent(savePath, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addContainerGap(172, Short.MAX_VALUE)
+                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(ButtonOne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SaveChart, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ButtonOne)
-                            .addComponent(ButtonPDF))
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(savePath)
-                            .addComponent(SaveChart))
-                        .addGap(26, 26, 26))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(170, 170, 170))))
+                .addContainerGap(297, Short.MAX_VALUE)
+                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(170, 170, 170))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ButtonOne)
+                    .addComponent(SaveChart))
+                .addContainerGap())
         );
 
         pack();
@@ -150,6 +128,7 @@ public class WykresKolowy extends javax.swing.JFrame {
         pieDataset.setValue("Konstantin", new Integer(26));
 
         JFreeChart chartJarek = ChartFactory.createPieChart3D("Title", pieDataset, true, true, true);
+        chartJarekCopy = chartJarek;
 
         // ChartFrame frame = new ChartFrame("Pie chart",chart);
         // frame.setVisible(true);
@@ -178,7 +157,6 @@ public class WykresKolowy extends javax.swing.JFrame {
 
     private void SaveChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveChartActionPerformed
 
-        
         // ============= Set path to save chart ===================================        
         JFileChooser chooserOne = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         String filename = JOptionPane.showInputDialog("Name this file");
@@ -190,33 +168,21 @@ public class WykresKolowy extends javax.swing.JFrame {
             File selectedFile = chooserOne.getSelectedFile();
             System.out.println(selectedFile.getAbsolutePath());
             String my = selectedFile.getAbsolutePath();
-                        
-            //===================== Zapisywanie pliku =========================
-            try {
-                writer = new BufferedWriter(new FileWriter(my,false));
-                JOptionPane.showMessageDialog(null, "File has been saved", "File Saved", JOptionPane.INFORMATION_MESSAGE);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //======== Zapisywanie pliku =====================================
-//            File imageFile = new File("C:\\LineChart.png");
-//            int width = 960;
-//            int height = 720;
-//            try {
-//            ChartUtilities.saveChartAsPNG(imageFile, chartJarek, width, height);
-//            } catch (IOException ex) {
-//            System.err.println(ex);
-//            }
-            
-            
-            
-            //=================================================================
+            //===================== Zapisywanie pliku =========================            
+                File imageFile = new File(my);
+                int width = 960;
+                int height = 720;
+                try {
+                    ChartUtilities.saveChartAsPNG(imageFile, chartJarekCopy, width, height);
+                    JOptionPane.showMessageDialog(null, "Plik został zapisany", "", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Plik został zapisany bez wykresu", "UWAGA !!!", JOptionPane.INFORMATION_MESSAGE);
+                    System.err.println(e);
+                    
+                }
+                // ==============                
         }
-        
-        
-        
-        
         // ========================================================================
     }//GEN-LAST:event_SaveChartActionPerformed
 
@@ -257,10 +223,8 @@ public class WykresKolowy extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonOne;
-    private javax.swing.JButton ButtonPDF;
     private javax.swing.JButton SaveChart;
     private java.awt.Canvas canvas1;
     private java.awt.Panel panel1;
-    private javax.swing.JLabel savePath;
     // End of variables declaration//GEN-END:variables
 }
