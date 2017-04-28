@@ -12,12 +12,16 @@ import static java.awt.SystemColor.text;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.text.Document;
 import org.jfree.chart.ChartFactory;
@@ -25,6 +29,9 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 /**
@@ -40,8 +47,32 @@ public class WykresKolowy extends javax.swing.JFrame {
      */
     public WykresKolowy() {
         initComponents();
+
+        // ======== Sets inactive buttons
+        ChoiceArrayList_IntString.setEnabled(false);
+        ChoiceTreeMap_IntString.setEnabled(false);
+        ChoiceHashMap_IntString.setEnabled(false);
+        ChoiceLinkedHashMap_IntString.setEnabled(false);
+        ChoiceArray_IntInt.setEnabled(false);
+        ChoiceArrayList_IntInt.setEnabled(false);
+        ChoiceTreeMap_IntInt.setEnabled(false);
+        ChoiceHashMap_IntInt.setEnabled(false);
+        ChoiceLinkedHashMap_IntInt.setEnabled(false);
+        ChoiceLinkedList_IntString.setEnabled(false);
+
+        //==================================
     }
 
+    // ================= Variables ==============
+    public static long timeArrayIntInt = 0L;
+    public static long timeArrayListIntInt = 0L;
+    public static long timeArrayTreeMapIntInt = 0L;
+    public static long timeArrayHashMapIntInt = 0L;
+    public static long timeArrayLinkedHashMapIntInt = 0L;
+    public static long timeArrayLinkedListIntInt = 0L;
+    public static String printResult = "";
+
+    //================================
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,35 +82,186 @@ public class WykresKolowy extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ButtonOne = new javax.swing.JButton();
-        canvas1 = new java.awt.Canvas();
+        ButtonChartCreation = new javax.swing.JButton();
         panel1 = new java.awt.Panel();
-        SaveChart = new javax.swing.JButton();
+        canvas1 = new java.awt.Canvas();
+        ButtonSaveChart = new javax.swing.JButton();
+        ChoiceArray_IntInt = new javax.swing.JRadioButton();
+        ChoiceArrayList_IntInt = new javax.swing.JRadioButton();
+        ChoiceTreeMap_IntInt = new javax.swing.JRadioButton();
+        ChoiceHashMap_IntInt = new javax.swing.JRadioButton();
+        ChoiceLinkedHashMap_IntInt = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        ChoiceArrayList_IntString = new javax.swing.JRadioButton();
+        ComboBox_ModeSelection = new javax.swing.JComboBox<>();
+        ChoiceTreeMap_IntString = new javax.swing.JRadioButton();
+        ChoiceHashMap_IntString = new javax.swing.JRadioButton();
+        ChoiceLinkedHashMap_IntString = new javax.swing.JRadioButton();
+        SpinnerOne_InputElementsNumber = new javax.swing.JSpinner();
+        jLabel3 = new javax.swing.JLabel();
+        SpinnerTwo_Innterations = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        ComboBox_OperationSelection = new javax.swing.JComboBox<>();
+        ProgressBar1 = new javax.swing.JProgressBar();
+        ButtonGo = new javax.swing.JButton();
+        ButtonCancel = new javax.swing.JButton();
+        ButtonClear = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ResultText = new javax.swing.JTextArea();
+        ChoiceLinkedList_IntInt = new javax.swing.JRadioButton();
+        ChoiceLinkedList_IntString = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(0, 0));
+        setResizable(false);
 
-        ButtonOne.setText("Generuj wykres");
-        ButtonOne.addActionListener(new java.awt.event.ActionListener() {
+        ButtonChartCreation.setText("Create chart");
+        ButtonChartCreation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonOneActionPerformed(evt);
+                ButtonChartCreationActionPerformed(evt);
             }
         });
+
+        panel1.setBackground(new java.awt.Color(204, 255, 255));
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 412, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        SaveChart.setText("Zapisz wykres");
-        SaveChart.addActionListener(new java.awt.event.ActionListener() {
+        ButtonSaveChart.setText("Save chart");
+        ButtonSaveChart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SaveChartActionPerformed(evt);
+                ButtonSaveChartActionPerformed(evt);
+            }
+        });
+
+        ChoiceArray_IntInt.setText("Array; int[][] name = new int[][];");
+        ChoiceArray_IntInt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChoiceArray_IntIntActionPerformed(evt);
+            }
+        });
+
+        ChoiceArrayList_IntInt.setText("ArrayList; ArrayList<int> name = new ArrayList<int>();");
+        ChoiceArrayList_IntInt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChoiceArrayList_IntIntActionPerformed(evt);
+            }
+        });
+
+        ChoiceTreeMap_IntInt.setText("TreeMap: Map<int, int> name = new TreeMap<>();");
+
+        ChoiceHashMap_IntInt.setText("HashMap; Map<int, int> name = new HashMap<>();");
+
+        ChoiceLinkedHashMap_IntInt.setText("LinkedHashMap; Map<int, int> name = new LinkedHashMap <>();");
+        ChoiceLinkedHashMap_IntInt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChoiceLinkedHashMap_IntIntActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setText("Chose simulations option for pair {int, int}");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setText("Chose simulations option for pair {int, String}");
+
+        ChoiceArrayList_IntString.setText("ArrayList; ArrayList<String> name = new ArrayList<String>();");
+        ChoiceArrayList_IntString.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChoiceArrayList_IntStringActionPerformed(evt);
+            }
+        });
+
+        ComboBox_ModeSelection.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        ComboBox_ModeSelection.setMaximumRowCount(3);
+        ComboBox_ModeSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select...", "Pair {int, String}", "Pair {int, int}" }));
+        ComboBox_ModeSelection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBox_ModeSelectionActionPerformed(evt);
+            }
+        });
+
+        ChoiceTreeMap_IntString.setText("TreeMap: Map<int, String> name = new TreeMap<>();");
+
+        ChoiceHashMap_IntString.setText("HashMap; Map<int, String> name = new HashMap<>();");
+
+        ChoiceLinkedHashMap_IntString.setText("LinkedHashMap; Map<int, String> name = new LinkedHashMap <>();");
+
+        SpinnerOne_InputElementsNumber.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("Define input elements:");
+
+        SpinnerTwo_Innterations.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setText("Average of interations:");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setText("Java Array, Map filling time measurements");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Select mode:");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel7.setText("Select operation:");
+
+        ComboBox_OperationSelection.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        ComboBox_OperationSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select...", "Add", "Remove" }));
+
+        ButtonGo.setText("GO !!!");
+        ButtonGo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonGoActionPerformed(evt);
+            }
+        });
+
+        ButtonCancel.setText("Cancel");
+        ButtonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonCancelActionPerformed(evt);
+            }
+        });
+
+        ButtonClear.setText("Clear");
+        ButtonClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonClearActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setText("Results:");
+
+        ResultText.setEditable(false);
+        ResultText.setColumns(20);
+        ResultText.setRows(5);
+        jScrollPane1.setViewportView(ResultText);
+
+        ChoiceLinkedList_IntInt.setText("LinkedList; LinkedList<int>name = new LinkedList<int>();");
+        ChoiceLinkedList_IntInt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChoiceLinkedList_IntIntActionPerformed(evt);
+            }
+        });
+
+        ChoiceLinkedList_IntString.setText("LinkedList; LinkedList<String> name = new LinkedList<>();");
+        ChoiceLinkedList_IntString.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChoiceLinkedList_IntStringActionPerformed(evt);
             }
         });
 
@@ -88,74 +270,190 @@ public class WykresKolowy extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(172, Short.MAX_VALUE)
-                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(ButtonOne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(448, 448, 448)
+                        .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ComboBox_OperationSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(ButtonGo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SaveChart, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addComponent(ButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ButtonClear, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(ComboBox_ModeSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel2)
+                    .addComponent(ChoiceArrayList_IntString)
+                    .addComponent(ChoiceTreeMap_IntString)
+                    .addComponent(ChoiceHashMap_IntString)
+                    .addComponent(ChoiceLinkedHashMap_IntString)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(73, 73, 73)
+                            .addComponent(jLabel4))
+                        .addComponent(jLabel5)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(SpinnerOne_InputElementsNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(SpinnerTwo_Innterations, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(ChoiceLinkedHashMap_IntInt)
+                    .addComponent(ChoiceTreeMap_IntInt)
+                    .addComponent(jLabel9)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ProgressBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE))
+                    .addComponent(ChoiceLinkedList_IntInt)
+                    .addComponent(ChoiceHashMap_IntInt, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ChoiceArray_IntInt, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ChoiceArrayList_IntInt, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ChoiceLinkedList_IntString))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, Short.MAX_VALUE)
+                        .addComponent(ButtonChartCreation, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(ButtonSaveChart, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(121, 121, 121))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(297, Short.MAX_VALUE)
-                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(170, 170, 170))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(SpinnerTwo_Innterations, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(SpinnerOne_InputElementsNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addGap(4, 4, 4)
+                        .addComponent(ComboBox_ModeSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ComboBox_OperationSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChoiceArrayList_IntString)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChoiceTreeMap_IntString)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChoiceHashMap_IntString)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChoiceLinkedHashMap_IntString)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChoiceLinkedList_IntString)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChoiceArray_IntInt, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ChoiceArrayList_IntInt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(194, 194, 194))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(ChoiceTreeMap_IntInt)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ChoiceHashMap_IntInt)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ChoiceLinkedHashMap_IntInt, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ChoiceLinkedList_IntInt)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButtonOne)
-                    .addComponent(SaveChart))
+                    .addComponent(ButtonChartCreation)
+                    .addComponent(ButtonGo)
+                    .addComponent(ButtonCancel)
+                    .addComponent(ButtonClear)
+                    .addComponent(ButtonSaveChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonOneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOneActionPerformed
+    private void ButtonChartCreationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonChartCreationActionPerformed
 
-        DefaultPieDataset pieDataset = new DefaultPieDataset();
-        pieDataset.setValue("Azizjan", new Integer(20));
-        pieDataset.setValue("Leyla", new Integer(19));
-        pieDataset.setValue("Lola", new Integer(18));
-        pieDataset.setValue("Janara", new Integer(17));
-        pieDataset.setValue("Konstantin", new Integer(26));
+        //================ Bar chart ======================================
+        int maxI = (Integer) SpinnerOne_InputElementsNumber.getValue(); // Elements number
 
-        JFreeChart chartJarek = ChartFactory.createPieChart3D("Title", pieDataset, true, true, true);
-        chartJarekCopy = chartJarek;
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        // ChartFrame frame = new ChartFrame("Pie chart",chart);
-        // frame.setVisible(true);
-        // frame.setSize(400, 400);
+        if (ComboBox_ModeSelection.getSelectedItem() == "Pair {int, int}") {
+            if (ChoiceArray_IntInt.isSelected() == true) {
+                dataset.addValue(timeArrayIntInt, "", "Array");
+            }
+            dataset.addValue(timeArrayListIntInt, "", "ArrayList");
+            dataset.addValue(timeArrayTreeMapIntInt, "", "TreeMap");
+            dataset.addValue(timeArrayHashMapIntInt, "", "HashMap");
+            dataset.addValue(timeArrayLinkedHashMapIntInt, "", "LinkedHashMap");
+            dataset.addValue(timeArrayLinkedListIntInt, "", "LinkedList");
+        }
+
+        final JFreeChart chart1;
+
+        chart1 = ChartFactory.createBarChart("Run-time of elements filling. Elements: " + maxI, // chart
+                // title
+                "Storing element", // domain axis label
+                "Time [nanoseconds]", // range axis label
+                dataset, // data
+                PlotOrientation.VERTICAL, // orientation
+                false, // include legend
+                true, // tooltips?
+                false // URLs?
+        );
+
         //=============== Displays chart in main panel ==============
-        ChartPanel p = new ChartPanel(chartJarek);
+        ChartPanel p = new ChartPanel(chart1);
         p.setSize(panel1.getWidth(), panel1.getHeight());
         p.setVisible(true);
+        panel1.removeAll();
         panel1.add(p);
         panel1.repaint();
 
-        //=============================
+        //final BarRenderer renderer = (BarRenderer) p.getRenderer();
         //================= Save chart to PNG ========================
         File imageFile = new File("C:\\LineChart.png");
         int width = 960;
         int height = 720;
         try {
-            ChartUtilities.saveChartAsPNG(imageFile, chartJarek, width, height);
+            ChartUtilities.saveChartAsPNG(imageFile, chart1, width, height);
         } catch (IOException ex) {
             System.err.println(ex);
         }
 
         //==============================================================
 
-    }//GEN-LAST:event_ButtonOneActionPerformed
+    }//GEN-LAST:event_ButtonChartCreationActionPerformed
 
-    private void SaveChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveChartActionPerformed
+    private void ButtonSaveChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveChartActionPerformed
 
         // ============= Set path to save chart ===================================        
         JFileChooser chooserOne = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -170,21 +468,299 @@ public class WykresKolowy extends javax.swing.JFrame {
             String my = selectedFile.getAbsolutePath();
 
             //===================== Zapisywanie pliku =========================            
-                File imageFile = new File(my);
-                int width = 960;
-                int height = 720;
-                try {
-                    ChartUtilities.saveChartAsPNG(imageFile, chartJarekCopy, width, height);
-                    JOptionPane.showMessageDialog(null, "Plik został zapisany", "", JOptionPane.INFORMATION_MESSAGE);
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Plik został zapisany bez wykresu", "UWAGA !!!", JOptionPane.INFORMATION_MESSAGE);
-                    System.err.println(e);
-                    
-                }
-                // ==============                
+            File imageFile = new File(my);
+            int width = 960;
+            int height = 720;
+            try {
+                ChartUtilities.saveChartAsPNG(imageFile, chartJarekCopy, width, height);
+                JOptionPane.showMessageDialog(null, "Plik został zapisany", "", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Plik został zapisany bez wykresu", "UWAGA !!!", JOptionPane.INFORMATION_MESSAGE);
+                System.err.println(e);
+
+            }
+            // ==============                
         }
         // ========================================================================
-    }//GEN-LAST:event_SaveChartActionPerformed
+    }//GEN-LAST:event_ButtonSaveChartActionPerformed
+
+    private void ChoiceLinkedHashMap_IntIntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChoiceLinkedHashMap_IntIntActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChoiceLinkedHashMap_IntIntActionPerformed
+
+    private void ChoiceArrayList_IntIntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChoiceArrayList_IntIntActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChoiceArrayList_IntIntActionPerformed
+
+    private void ChoiceArrayList_IntStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChoiceArrayList_IntStringActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChoiceArrayList_IntStringActionPerformed
+
+    private void ChoiceArray_IntIntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChoiceArray_IntIntActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChoiceArray_IntIntActionPerformed
+
+    private void ComboBox_ModeSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBox_ModeSelectionActionPerformed
+        if (ComboBox_ModeSelection.getSelectedItem() == "Pair {int, String}") {
+            ButtonsIntStrEnable();
+            ButtonsIntIntDisable();
+        } else if (ComboBox_ModeSelection.getSelectedItem() == "Pair {int, int}") {
+            ButtonsIntStrDisable();
+            ButtonsIntIntEnable();
+        } else if (ComboBox_ModeSelection.getSelectedItem() == "Select...") {
+            ButtonsIntStrDisable();
+            ButtonsIntIntDisable();
+        }
+
+    }//GEN-LAST:event_ComboBox_ModeSelectionActionPerformed
+
+    private void ButtonGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGoActionPerformed
+        // TODO add your handling code here:
+        ButtonsIntIntDisable();
+        ButtonsIntStrDisable();
+        ComboBox_ModeSelection.setEnabled(false);
+        ComboBox_OperationSelection.setEnabled(false);
+        SpinnerOne_InputElementsNumber.setEnabled(false);
+        SpinnerTwo_Innterations.setEnabled(false);
+        ButtonClear.setEnabled(false);
+        ButtonChartCreation.setEnabled(false);
+        ButtonSaveChart.setEnabled(false);
+
+        Calculate();
+    }//GEN-LAST:event_ButtonGoActionPerformed
+
+    private void ButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCancelActionPerformed
+        // TODO add your handling code here:
+
+        ButtonsCancel_EndProcess();
+
+        if (ComboBox_ModeSelection.getSelectedItem() == "Pair {int, String}") {
+            ButtonsIntStrEnable();
+        } else if (ComboBox_ModeSelection.getSelectedItem() == "Pair {int, int}") {
+            ButtonsIntIntEnable();
+        }
+
+
+    }//GEN-LAST:event_ButtonCancelActionPerformed
+
+    private void ButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonClearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonClearActionPerformed
+
+    private void ChoiceLinkedList_IntIntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChoiceLinkedList_IntIntActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChoiceLinkedList_IntIntActionPerformed
+
+    private void ChoiceLinkedList_IntStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChoiceLinkedList_IntStringActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChoiceLinkedList_IntStringActionPerformed
+
+    public void ButtonsIntIntDisable() {
+        // ========== This function disables buttons in int-int choice
+        ChoiceArray_IntInt.setEnabled(false);
+        ChoiceArrayList_IntInt.setEnabled(false);
+        ChoiceTreeMap_IntInt.setEnabled(false);
+        ChoiceHashMap_IntInt.setEnabled(false);
+        ChoiceLinkedHashMap_IntInt.setEnabled(false);
+        ChoiceLinkedList_IntInt.setEnabled(false);
+    }
+
+    public void ButtonsIntIntEnable() {
+        // ========== This function enables buttons in int-int choice
+        ChoiceArray_IntInt.setEnabled(true);
+        ChoiceArrayList_IntInt.setEnabled(true);
+        ChoiceTreeMap_IntInt.setEnabled(true);
+        ChoiceHashMap_IntInt.setEnabled(true);
+        ChoiceLinkedHashMap_IntInt.setEnabled(true);
+        ChoiceLinkedList_IntInt.setEnabled(true);
+    }
+
+    public void ButtonsIntStrDisable() {
+        // ========== This function disables buttons in int-str choice
+        ChoiceArrayList_IntString.setEnabled(false);
+        ChoiceTreeMap_IntString.setEnabled(false);
+        ChoiceHashMap_IntString.setEnabled(false);
+        ChoiceLinkedHashMap_IntString.setEnabled(false);
+        ChoiceLinkedList_IntString.setEnabled(false);
+    }
+
+    public void ButtonsIntStrEnable() {
+        ChoiceArrayList_IntString.setEnabled(true);
+        ChoiceTreeMap_IntString.setEnabled(true);
+        ChoiceHashMap_IntString.setEnabled(true);
+        ChoiceLinkedHashMap_IntString.setEnabled(true);
+        ChoiceLinkedList_IntString.setEnabled(true);
+
+    }
+
+    public void ButtonsCancel_EndProcess() {
+        ButtonClear.setEnabled(true);
+        ButtonChartCreation.setEnabled(true);
+        ButtonSaveChart.setEnabled(true);
+        SpinnerOne_InputElementsNumber.setEnabled(true);
+        SpinnerTwo_Innterations.setEnabled(true);
+        ComboBox_ModeSelection.setEnabled(true);
+        ComboBox_OperationSelection.setEnabled(true);
+    }
+
+    public void CalculationArray_IntInt(int maxI, int inter) {
+        int[] myOne = new int[maxI];
+        long[] timeMy = new long[inter];
+        // long startTime = System.currentTimeMillis();
+        for (int j = 0; j < inter; j++) {
+
+            long startTime = System.nanoTime();
+            for (int i = 0; i < maxI; i++) {
+                myOne[i] = i;
+            }
+            long estimatedTime = System.nanoTime() - startTime;
+            timeMy[j] = estimatedTime;
+        }
+        //long estimatedTime = System.currentTimeMillis() - startTime;
+        WykresKolorowyAlgorytmy averOne = new WykresKolorowyAlgorytmy();
+        timeArrayIntInt = averOne.AverageCalc(timeMy);
+        ResultText.setText(ResultText.getText() + "\nCompile time for Array is: " + timeArrayIntInt + " nanosec");
+    }
+
+    public void CalculateArrayList_IntInt(int maxI, int inter) {
+        ArrayList<Integer> myOne = new ArrayList<>();
+        long[] timeMy = new long[inter];
+
+        for (int j = 0; j < inter; j++) {
+            long startTime = System.nanoTime();
+            for (int i = 0; i < maxI; i++) {
+                myOne.add(i);
+            }
+            long estimatedTime = System.nanoTime() - startTime;
+            timeMy[j] = estimatedTime;
+        }
+        WykresKolorowyAlgorytmy averOne = new WykresKolorowyAlgorytmy();
+        timeArrayListIntInt = averOne.AverageCalc(timeMy);
+        ResultText.setText(ResultText.getText() + "\nCompile time for ArrayList is: " + timeArrayListIntInt + " nanosec");
+    }
+
+    public void CalculateTreeMap_IntInt(int maxI, int inter) {
+        TreeMap<Integer, Integer> tmap = new TreeMap<Integer, Integer>();
+        long[] timeMy = new long[inter];
+
+        for (int j = 0; j < inter; j++) {
+            long startTime = System.nanoTime();
+            for (int i = 0; i < maxI; i++) {
+                tmap.put(i, i);
+            }
+            long estimatedTime = System.nanoTime() - startTime;
+            timeMy[j] = estimatedTime;
+        }
+        WykresKolorowyAlgorytmy averOne = new WykresKolorowyAlgorytmy();
+        timeArrayTreeMapIntInt = averOne.AverageCalc(timeMy);
+        ResultText.setText(ResultText.getText() + "\nCompile time for TreeMap is: " + timeArrayTreeMapIntInt + " nanosec");
+    }
+
+    public void CalculateHashMap_IntInt(int maxI, int inter) {
+        HashMap<Integer, Integer> hashMapMy = new HashMap<Integer, Integer>();
+        long[] timeMy = new long[inter];
+
+        for (int j = 0; j < inter; j++) {
+            long startTime = System.nanoTime();
+            for (int i = 0; i < maxI; i++) {
+                hashMapMy.put(i, i);
+            }
+            long estimatedTime = System.nanoTime() - startTime;
+            timeMy[j] = estimatedTime;
+        }
+        WykresKolorowyAlgorytmy averOne = new WykresKolorowyAlgorytmy();
+        timeArrayHashMapIntInt = averOne.AverageCalc(timeMy);
+        ResultText.setText(ResultText.getText() + "\nCompile time for HashMap is: " + timeArrayHashMapIntInt + " nanosec");
+    }
+
+    public void CalculateLinkedHashMap_Int_Int(int maxI, int inter) {
+        LinkedHashMap<Integer, Integer> lhm = new LinkedHashMap<Integer, Integer>();
+        long[] timeMy = new long[inter];
+
+        for (int j = 0; j < inter; j++) {
+            long startTime = System.nanoTime();
+            for (int i = 0; i < maxI; i++) {
+                lhm.put(i, i);
+            }
+            long estimatedTime = System.nanoTime() - startTime;
+            timeMy[j] = estimatedTime;
+        }
+        WykresKolorowyAlgorytmy averOne = new WykresKolorowyAlgorytmy();
+        timeArrayLinkedHashMapIntInt = averOne.AverageCalc(timeMy);
+        ResultText.setText(ResultText.getText() + "\nCompile time for LinkedHashMap is: " + timeArrayLinkedHashMapIntInt + " nanosec");
+    }
+
+    public void CalculateLinkedList_Int_Int(int maxI, int inter) {
+        LinkedList<Integer> linkedlist = new LinkedList<Integer>();
+        long[] timeMy = new long[inter];
+
+        for (int j = 0; j < inter; j++) {
+            long startTime = System.nanoTime();
+            for (int i = 0; i < maxI; i++) {
+                linkedlist.add(i);
+            }
+            long estimatedTime = System.nanoTime() - startTime;
+            timeMy[j] = estimatedTime;
+        }
+        WykresKolorowyAlgorytmy averOne = new WykresKolorowyAlgorytmy();
+        timeArrayLinkedListIntInt = averOne.AverageCalc(timeMy);
+        ResultText.setText(ResultText.getText() + "\nCompile time for LinkedList is: " + timeArrayLinkedListIntInt + " nanosec");
+
+    }
+
+    public void Calculate() {
+        int maxI = (Integer) SpinnerOne_InputElementsNumber.getValue();  // Number of elements
+        int inter = (Integer) SpinnerTwo_Innterations.getValue();
+        ProgressBar1.setMaximum(maxI);
+        ProgressBar1.setValue(0);
+
+        //============= Displaying number of elements and mode
+        ResultText.setText("");
+        ResultText.setText(ResultText.getText() + "Number of elemennts: " + maxI);
+        ResultText.setText(ResultText.getText() + "\nNumber of iteration: " + inter);
+
+        //============= Checks which buttons are selected ======================
+        if (ComboBox_ModeSelection.getSelectedItem() == "Pair {int, int}") {
+
+            if (ChoiceArray_IntInt.isSelected() == true) {
+                CalculationArray_IntInt(maxI, inter);
+            }
+            if (ChoiceArrayList_IntInt.isSelected() == true) {
+                CalculateArrayList_IntInt(maxI, inter);
+            }
+            if (ChoiceTreeMap_IntInt.isSelected() == true) {
+                CalculateTreeMap_IntInt(maxI, inter);
+            }
+            if (ChoiceHashMap_IntInt.isSelected() == true) {
+                CalculateHashMap_IntInt(maxI, inter);
+            }
+            if (ChoiceLinkedHashMap_IntInt.isSelected() == true) {
+                CalculateLinkedHashMap_Int_Int(maxI, inter);
+            }
+            if (ChoiceLinkedList_IntInt.isSelected() == true) {
+                CalculateLinkedList_Int_Int(maxI, inter);
+            }
+            ButtonsIntIntEnable();
+        }
+        if (ComboBox_ModeSelection.getSelectedItem() == "Pair {int, String}") {
+            if (ChoiceArrayList_IntString.isSelected() == true) {
+            }
+            if (ChoiceTreeMap_IntString.isSelected() == true) {
+            }
+            if (ChoiceHashMap_IntString.isSelected() == true) {
+            }
+            if (ChoiceLinkedHashMap_IntString.isSelected() == true) {
+            }
+            if (ChoiceLinkedList_IntString.isSelected() == true) {
+            }
+            ButtonsIntStrEnable();
+        }
+
+        //============= End of calculation, enables buttons ====================
+        ButtonsCancel_EndProcess();
+        ProgressBar1.setValue(maxI);
+        ProgressBar1.setStringPainted(true);
+    }
 
     /**
      * @param args the command line arguments
@@ -222,9 +798,38 @@ public class WykresKolowy extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonOne;
-    private javax.swing.JButton SaveChart;
+    private javax.swing.JButton ButtonCancel;
+    private javax.swing.JButton ButtonChartCreation;
+    private javax.swing.JButton ButtonClear;
+    private javax.swing.JButton ButtonGo;
+    private javax.swing.JButton ButtonSaveChart;
+    private javax.swing.JRadioButton ChoiceArrayList_IntInt;
+    private javax.swing.JRadioButton ChoiceArrayList_IntString;
+    private javax.swing.JRadioButton ChoiceArray_IntInt;
+    private javax.swing.JRadioButton ChoiceHashMap_IntInt;
+    private javax.swing.JRadioButton ChoiceHashMap_IntString;
+    private javax.swing.JRadioButton ChoiceLinkedHashMap_IntInt;
+    private javax.swing.JRadioButton ChoiceLinkedHashMap_IntString;
+    private javax.swing.JRadioButton ChoiceLinkedList_IntInt;
+    private javax.swing.JRadioButton ChoiceLinkedList_IntString;
+    private javax.swing.JRadioButton ChoiceTreeMap_IntInt;
+    private javax.swing.JRadioButton ChoiceTreeMap_IntString;
+    private javax.swing.JComboBox<String> ComboBox_ModeSelection;
+    private javax.swing.JComboBox<String> ComboBox_OperationSelection;
+    private javax.swing.JProgressBar ProgressBar1;
+    private javax.swing.JTextArea ResultText;
+    private javax.swing.JSpinner SpinnerOne_InputElementsNumber;
+    private javax.swing.JSpinner SpinnerTwo_Innterations;
     private java.awt.Canvas canvas1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private java.awt.Panel panel1;
     // End of variables declaration//GEN-END:variables
 }
