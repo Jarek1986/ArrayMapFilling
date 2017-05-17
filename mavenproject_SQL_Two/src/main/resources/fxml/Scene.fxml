@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mavenproject_sql_two.FXMLController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mavenproject_sql_two.FXMLController">
     <children>
       <TabPane layoutX="47.0" layoutY="20.0" prefHeight="626.0" prefWidth="576.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -20,18 +24,85 @@
                <content>
                   <AnchorPane fx:id="anchorPane2" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <ComboBox layoutX="52.0" layoutY="52.0" prefWidth="150.0" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="52.0" layoutY="32.0" prefHeight="17.0" prefWidth="150.0" text="Add/Remove table" textAlignment="CENTER">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="62.0" layoutY="102.0" text="Add/Remove column">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <ComboBox layoutX="52.0" layoutY="122.0" prefWidth="150.0" />
+                        <Pane fx:id="paneOneTableCreation" layoutX="-6.0" prefHeight="320.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <ListView layoutX="263.0" layoutY="56.0" prefHeight="231.0" prefWidth="200.0" />
+                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="58.0" layoutY="30.0" prefHeight="17.0" prefWidth="150.0" text="Add/Delete table" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="ComboBox1TableCreation" layoutX="58.0" layoutY="56.0" prefWidth="150.0" />
+                              <Label layoutX="81.0" layoutY="196.0" text="Enter table name">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField layoutX="59.0" layoutY="218.0" />
+                              <Label layoutX="343.0" layoutY="30.0" text="Tables">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="59.0" layoutY="124.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Delete table" />
+                              <Button layoutX="59.0" layoutY="254.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" text="Create table" />
+                              <Label alignment="CENTER" layoutX="53.0" layoutY="104.0" prefHeight="20.0" prefWidth="161.0" text="Select table from 'Tables'">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="paneTwoTableCreation" layoutX="14.0" layoutY="400.0" prefHeight="457.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="318.0">
+                           <children>
+                              <Label layoutX="47.0" layoutY="47.0" text="Add/Delete column">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox layoutX="56.0" layoutY="78.0" prefWidth="150.0" />
+                              <Label layoutX="176.0" layoutY="14.0" text="Table modification">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="337.0" layoutY="50.0" text="Columns">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <ListView layoutX="264.0" layoutY="78.0" prefHeight="345.0" prefWidth="200.0" />
+                              <Label layoutX="36.0" layoutY="173.0" text="Select column  from 'Columns'">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="56.0" layoutY="193.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Remove" />
+                              <Label layoutX="81.0" layoutY="251.0" text="Add column">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="90.0" layoutY="286.0" text="Column type">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox layoutX="55.0" layoutY="306.0" prefWidth="150.0" />
+                              <Label layoutX="86.0" layoutY="331.0" text="Column name">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField layoutX="55.0" layoutY="351.0" />
+                              <Button layoutX="55.0" layoutY="392.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Add" />
+                              <Label layoutX="66.0" layoutY="140.0" text="Remove column">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
                      </children></AnchorPane>
                </content>
           </Tab>

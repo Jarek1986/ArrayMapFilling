@@ -12,17 +12,31 @@
     -fx-background-color: white;    
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-     -fx-background-insets: 0 1 0 1,0,0;
-    
-    
+    -fx-background-insets: 0 1 0 1,0,0;    
 }
 #tab2 {
-    -fx-background-color: papayawhip;
-    -fx-background-insets: 0 1 0 1,0,0;
+    -fx-background-color: aliceblue;
+    
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    
-   
-    
-    
+    -fx-border-color: #2e8b57;
+    -fx-border-width: 2px;    
+}
+
+#paneOneTableCreation{
+    -fx-border-width: 2;
+    -fx-background-color: aliceblue; 
+    -fx-padding: 15;
+    -fx-spacing: 10;
+    -fx-border-color: #2e8b57;
+    -fx-border-width: 2px;
+}
+
+#paneTwoTableCreation{
+    -fx-border-width: 2;
+    -fx-background-color: aliceblue; 
+    -fx-padding: 15;
+    -fx-spacing: 10;
+    -fx-border-color: #2e8b57;
+    -fx-border-width: 2px;
 }
