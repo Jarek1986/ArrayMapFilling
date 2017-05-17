@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mavenproject_sql_two.FXMLController">
+    <children>
+      <TabPane layoutX="47.0" layoutY="20.0" prefHeight="626.0" prefWidth="576.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab fx:id="tab1" text="Review database">
+            <content>
+              <AnchorPane fx:id="anchorPane1" minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="554.0" />
+            </content>
+          </Tab>
+          <Tab fx:id="tab2" text="Table creation">
+               <content>
+                  <AnchorPane fx:id="anchorPane2" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ComboBox layoutX="52.0" layoutY="52.0" prefWidth="150.0" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="52.0" layoutY="32.0" prefHeight="17.0" prefWidth="150.0" text="Add/Remove table" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="62.0" layoutY="102.0" text="Add/Remove column">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ComboBox layoutX="52.0" layoutY="122.0" prefWidth="150.0" />
+                     </children></AnchorPane>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+    </children>
+</AnchorPane>
