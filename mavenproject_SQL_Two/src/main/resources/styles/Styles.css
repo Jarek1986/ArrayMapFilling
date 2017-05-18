@@ -6,21 +6,20 @@
     -fx-background-color: white;
 }
 #anchorPane2 {
-    -fx-background-color: papayawhip;    
+    -fx-background-color: aliceblue;    
 }
 #tab1 {
-    -fx-background-color: white;    
+    -fx-background-color: white; 
+    
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-background-insets: 0 1 0 1,0,0;    
+       
 }
 #tab2 {
     -fx-background-color: aliceblue;
     
     -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-border-color: #2e8b57;
-    -fx-border-width: 2px;    
+    -fx-font-weight: bold;  
 }
 
 #paneOneTableCreation{
@@ -33,6 +32,14 @@
 }
 
 #paneTwoTableCreation{
+    -fx-border-width: 2;
+    -fx-background-color: aliceblue; 
+    -fx-padding: 15;
+    -fx-spacing: 10;
+    -fx-border-color: #2e8b57;
+    -fx-border-width: 2px;
+}
+#paneThreeTableCreation{
     -fx-border-width: 2;
     -fx-background-color: aliceblue; 
     -fx-padding: 15;
